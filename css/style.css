@@ -1,0 +1,267 @@
+/* ===== Базовые стили ===== */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f2fa;
+    color: #1e1033;
+    line-height: 1.6;
+}
+
+img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ===== ЧЕК-ЛИСТ 1: каркас страницы на grid-template-areas ===== */
+.page {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+        "header  header"
+        "sidebar main"
+        "footer  footer";
+    gap: 16px;
+    min-height: 100vh;
+    padding: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header  { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main    { grid-area: main; }
+.footer  { grid-area: footer; }
+
+/* ===== Header ===== */
+.header {
+    display: flex;                /* flex — только внутри мелкого компонента */
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    background: #1e1033;
+    color: #fff;
+}
+
+.logo {
+    font-size: 20px;
+    font-weight: bold;
+    color: #c084fc;
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.menu {
+    display: flex;
+    gap: 18px;
+}
+
+.menu a {
+    color: #ede4fa;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.menu a:hover {
+    color: #c084fc;
+}
+
+/* ===== Sidebar ===== */
+.sidebar {
+    background: #fff;
+    padding: 16px;
+    border-left: 4px solid #7c3aed;
+}
+
+.sidebar-title {
+    margin: 0 0 12px;
+    font-size: 16px;
+    color: #7c3aed;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.album-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;                /* фильтры тоже сеткой — одна колонка */
+    gap: 6px;
+}
+
+.album-link {
+    display: block;
+    padding: 8px 10px;
+    color: #4a3a66;
+    text-decoration: none;
+    background: #f5f2fa;
+}
+
+.album-link:hover {
+    background: #ede4fa;
+    color: #7c3aed;
+}
+
+/* ===== ЧЕК-ЛИСТ 2: сетка карточек ===== */
+.main {
+    min-width: 0;                 /* чтобы grid-элемент не распирал колонку */
+}
+
+.main-title {
+    margin: 0 0 16px;
+    color: #7c3aed;
+    border-bottom: 2px solid #7c3aed;
+    padding-bottom: 6px;
+}
+
+.catalog {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: #fff;
+    display: flex;                /* flex внутри карточки — разрешён */
+    flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 2px 6px rgba(30, 16, 51, 0.08);
+}
+
+/* Featured: фото недели — 2 колонки и 2 ряда */
+.card-featured {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.card-media {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+}
+
+.card-featured .card-media {
+    aspect-ratio: 16 / 9;
+}
+
+.card-body {
+    padding: 14px 16px;
+    display: flex;                /* выравнивание содержимого карточки */
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.card-tag {
+    align-self: flex-start;
+    background: #7c3aed;
+    color: #fff;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 2px 8px;
+}
+
+.card-title {
+    margin: 0;
+    font-size: 16px;
+    color: #1e1033;
+}
+
+.card-desc {
+    margin: 0;
+    font-size: 14px;
+    color: #4a3a66;
+}
+
+.card-footer {
+    margin-top: auto;             /* прижимаем футер карточки к низу */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #ede4fa;
+}
+
+.card-price {
+    font-size: 13px;
+    color: #8b7ca8;
+}
+
+.card-link {
+    color: #7c3aed;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+.card-link:hover {
+    text-decoration: underline;
+}
+
+/* ===== Footer ===== */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 20px;
+    background: #1e1033;
+    color: #ede4fa;
+    font-size: 14px;
+}
+
+.footer a {
+    color: #c084fc;
+    text-decoration: none;
+}
+
+/* ===== ЧЕК-ЛИСТ 1: мобильная версия ===== */
+@media (max-width: 768px) {
+    .page {
+        grid-template-columns: 1fr;
+        /* Самое важное изменение порядка: каталог поднимаем над фильтрами,
+           потому что на телефоне пользователь пришёл смотреть фото, а не фильтры. */
+        grid-template-areas:
+            "header"
+            "main"
+            "sidebar"
+            "footer";
+    }
+
+    /* Featured больше не растягиваем — иначе ломается одноколоночная сетка */
+    .card-featured {
+        grid-column: auto;
+        grid-row: auto;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .menu {
+        flex-wrap: wrap;
+    }
+}
+
+/* ===== ЧЕК-ЛИСТ 3: осознанное выравнивание ===== */
+/* Центрируем содержимое ячеек каталога по вертикали,
+   чтобы карточки разной высоты смотрелись ровно */
+.catalog {
+    align-items: stretch;
+}
+
+/* Центрирование подписи в featured-карточке — осознанно,
+   чтобы бейдж «Фото недели» стоял по центру по горизонтали */
+.card-featured .card-tag {
+    align-self: center;
+}
